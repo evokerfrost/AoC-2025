@@ -48,6 +48,8 @@ int CodeSolver::solve2(std::vector<std::string>& combination) {
         
         dial = (dial + (turn*modifier));
         modifier = dial < 0 ? -1 : 1;
+
+        // Increment current code by number of full rotations (+ an additional 1 if dial just landed on 0)
         code = code + (((dial == 0 || modifier < 0) && oldDial != 0) ? 1 : 0) + (dial * modifier) / 100;
         dial = dialHandler(dial);
     }
