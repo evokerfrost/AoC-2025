@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "FileHandler/FileHandler.h"
-#include "CodeSolver/CodeSolver.h"
+#include "GiftShop/GiftShop.h"
 
 int main(int argc, const char* argv[]) {
 
@@ -12,13 +12,13 @@ int main(int argc, const char* argv[]) {
     }
 
     FileHandler fh = FileHandler();
-    CodeSolver cs = CodeSolver();
+    GiftShop gs = GiftShop();
     
     std::vector<std::string> fileOutput = fh.readFile(argv[1]);
     
-    int result = cs.solve2(fileOutput);
+    int result = gs.solve(fileOutput[0]);
 
-    std::cout << "Result: " << std::to_string(result) << std::endl;
+    std::cout << "Result 1: " << std::to_string(result) << std::endl;
 
     return 0;
 }

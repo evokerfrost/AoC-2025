@@ -7,4 +7,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 include_directories (src)
 
-add_executable(aoc-2025-1 src/main.cpp src/FileHandler/FileHandler.cpp src/CodeSolver/CodeSolver.cpp)
+add_executable(aoc-2025-2 src/main.cpp src/FileHandler/FileHandler.cpp src/CodeSolver/CodeSolver.cpp src/GiftShop/GiftShop.cpp)
