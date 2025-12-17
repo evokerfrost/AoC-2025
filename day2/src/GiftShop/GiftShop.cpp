@@ -13,10 +13,21 @@ GiftShop::GiftShop() {
  */
 int GiftShop::solve(std::string& ranges) {
 
-    int sum = 0;
+    long sum = 0;
 
-    // Solve problem here.
-    auto temp = idStringHandler(ranges);
+    auto rangeStrings = idStringHandler(ranges);
+
+    for (std::string s : rangeStrings) {
+        auto dashpos=s.find_first_of('-');
+        long p1 = std::stol(s.substr(0, dashpos));
+        long p2 = std::stol(s.substr(dashpos+1));
+
+        for (long i = p1; i <= p2; i++) {
+            if(!isValid(i)) {
+                sum += i;
+            }
+        }
+    }
 
     return sum;
 }
@@ -32,7 +43,7 @@ int GiftShop::solve2(std::string& ranges) {
 
 
 /*
- * Helper function
+ * Handle the id string.
  */
 std::vector<std::string> GiftShop::idStringHandler(std::string& ogString) {
 
@@ -60,11 +71,14 @@ std::vector<std::string> GiftShop::idStringHandler(std::string& ogString) {
     return retVector;
 }
 
-bool GiftShop::isValid(int id) {
+/*
+ * Check if id is valid for solution 1.
+ */
+bool GiftShop::isValid(long id) {
     auto idStr = std::to_string(id);
     if (idStr.length() % 2 != 0) return true;
 
     auto mid = idStr.length()/2;
     
-    return idStr.substr(0, mid).compare(idStr.substr(mid)) != 0;
+    return idStr.substr(    0, mid).compare(idStr.substr(mid)) != 0;
 }

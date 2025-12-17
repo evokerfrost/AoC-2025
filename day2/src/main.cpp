@@ -18,6 +18,7 @@ int main(int argc, const char* argv[]) {
     
     int result = gs.solve(fileOutput[0]);
 
+    // Answer is too low
     std::cout << "Result 1: " << std::to_string(result) << std::endl;
 
     return 0;

@@ -11,7 +11,7 @@ class GiftShop {
     private:
         
         std::vector<std::string> idStringHandler(std::string& ogString);
-        bool isValid(int id);
+        bool isValid(long id);
 };
 
 #endif
