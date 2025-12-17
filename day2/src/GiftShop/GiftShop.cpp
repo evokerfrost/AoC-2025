@@ -11,7 +11,7 @@ GiftShop::GiftShop() {
 /*
  * Solution for problem 1
  */
-int GiftShop::solve(std::string& ranges) {
+long GiftShop::solve(std::string& ranges) {
 
     long sum = 0;
 
@@ -36,7 +36,7 @@ int GiftShop::solve(std::string& ranges) {
 /*
  * Solution for problem 2
  */
-int GiftShop::solve2(std::string& ranges) {
+long GiftShop::solve2(std::string& ranges) {
 
     return 0;
 }
