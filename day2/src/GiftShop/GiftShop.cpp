@@ -38,7 +38,23 @@ long GiftShop::solve(std::string& ranges) {
  */
 long GiftShop::solve2(std::string& ranges) {
 
-    return 0;
+    long sum = 0;
+
+    auto rangeStrings = idStringHandler(ranges);
+
+    for (std::string s : rangeStrings) {
+        auto dashpos=s.find_first_of('-');
+        long p1 = std::stol(s.substr(0, dashpos));
+        long p2 = std::stol(s.substr(dashpos+1));
+
+        for (long i = p1; i <= p2; i++) {
+            if(!isValid2(i)) {
+                sum += i;
+            }
+        }
+    }
+
+    return sum;
 }
 
 
@@ -74,6 +90,7 @@ std::vector<std::string> GiftShop::idStringHandler(std::string& ogString) {
     return retVector;
 }
 
+
 /*
  * Check if id is valid for solution 1.
  */
@@ -87,4 +104,49 @@ bool GiftShop::isValid(long id) {
     // Check if the first half of the string is equal to the second half
     auto mid = idStr.length()/2;
     return idStr.substr(0, mid).compare(idStr.substr(mid)) != 0;
+}
+
+
+/*
+ * Check if id is valid for solution 2.
+ */
+bool GiftShop::isValid2(long id) {
+
+    auto idStr = std::to_string(id);
+
+
+    // Get the mid point
+    auto mid = idStr.length()/2;
+
+
+    // Check all possible repetitions of the string
+    // Note that no repetitions can be found after the first half
+    for (long rs = 1; rs < mid; rs++) {
+
+        bool valid=true;
+
+        // Check if idStr could be made entirely of i-length repetitions (rs=repetition size)
+        if (idStr.length() % rs != 0) continue;
+
+        // Get the first repetition to find out what pattern we're looking for
+        std::string pattern = idStr.substr(0, rs);
+
+        for (long rn = 1; rn < idStr.length() / rs; rn++) {
+
+            // Compare repetition number (rn) with pattern
+            if (idStr.substr(rn*rs, rs).compare(pattern) != 0) {
+                valid = false;
+                break;
+            }
+        }
+
+        // If a nonconforming repetition was found, keep looking with the next repetition size
+        if(!valid) continue;
+
+        // Everything conforms to the repetition¸ return true
+        return true;
+    }
+
+    // We didn't find anything. Return false
+    return false;
 }
