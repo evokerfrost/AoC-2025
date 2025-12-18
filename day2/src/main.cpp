@@ -16,7 +16,7 @@ int main(int argc, const char* argv[]) {
     
     std::vector<std::string> fileOutput = fh.readFile(argv[1]);
     
-    int result = gs.solve(fileOutput[0]);
+    long result = gs.solve(fileOutput[0]);
 
     // Answer is too low
     std::cout << "Result 1: " << std::to_string(result) << std::endl;
