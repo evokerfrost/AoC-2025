@@ -47,22 +47,25 @@ long GiftShop::solve2(std::string& ranges) {
  */
 std::vector<std::string> GiftShop::idStringHandler(std::string& ogString) {
 
-    
+    // Create a vector for storing all ranges entered in ogString
     auto retVector = std::vector<std::string>();
     
+    // Get the first comma, and return a vector with the entire string if there are no commas
     std::size_t commaPos = ogString.find_first_of(',');
-
     if (commaPos == std::string::npos) {
         retVector.insert(retVector.end(), ogString);
         return retVector;
     }
 
+    // Insert substring 0 until commaPos into the return vector
     retVector.insert(retVector.end(), ogString.substr(0, commaPos));
 
+    // While commas are still found, keep looking for substrings of ogString
     while (commaPos != std::string::npos) {
         std::size_t oldPos = commaPos+1;
         commaPos=ogString.find_first_of(',', commaPos+1);
 
+        // If there are no more commas, insert the rest of ogString in retVector. Otherwise, insert the relevant range (until next comma)
         if (commaPos == std::string::npos) retVector.insert(retVector.end(), ogString.substr(oldPos));
         else retVector.insert(retVector.end(), ogString.substr(oldPos, commaPos-oldPos));
         
@@ -75,10 +78,13 @@ std::vector<std::string> GiftShop::idStringHandler(std::string& ogString) {
  * Check if id is valid for solution 1.
  */
 bool GiftShop::isValid(long id) {
+
     auto idStr = std::to_string(id);
+
+    // Only strings of even length can be incorrect
     if (idStr.length() % 2 != 0) return true;
 
+    // Check if the first half of the string is equal to the second half
     auto mid = idStr.length()/2;
-    
-    return idStr.substr(    0, mid).compare(idStr.substr(mid)) != 0;
+    return idStr.substr(0, mid).compare(idStr.substr(mid)) != 0;
 }
