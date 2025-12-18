@@ -121,32 +121,31 @@ bool GiftShop::isValid2(long id) {
 
     // Check all possible repetitions of the string
     // Note that no repetitions can be found after the first half
-    for (long rs = 1; rs < mid; rs++) {
+    for (long rs = 1; rs <= mid; rs++) {
 
-        bool valid=true;
+        bool valid=false;
 
         // Check if idStr could be made entirely of i-length repetitions (rs=repetition size)
         if (idStr.length() % rs != 0) continue;
 
         // Get the first repetition to find out what pattern we're looking for
         std::string pattern = idStr.substr(0, rs);
-
         for (long rn = 1; rn < idStr.length() / rs; rn++) {
 
             // Compare repetition number (rn) with pattern
             if (idStr.substr(rn*rs, rs).compare(pattern) != 0) {
-                valid = false;
+                valid = true;
                 break;
             }
         }
 
         // If a nonconforming repetition was found, keep looking with the next repetition size
-        if(!valid) continue;
+        if(valid) continue;
 
-        // Everything conforms to the repetition¸ return true
-        return true;
+        // Everything conforms to the repetition¸ return false
+        return false;
     }
 
-    // We didn't find anything. Return false
-    return false;
+    // We didn't find anything incorrect. Return true
+    return true;
 }
