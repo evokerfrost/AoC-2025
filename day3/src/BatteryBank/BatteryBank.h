@@ -17,6 +17,7 @@ class BatteryBank {
         // Helper functions
         int findLargestJoltage(std::string& bankString);
         long findLargestJoltage2(std::string& bankString);
+        void printVec(std::vector<int> vec);
 };
 
 #endif

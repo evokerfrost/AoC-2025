@@ -1,4 +1,6 @@
 #include "BatteryBank.h"
+#include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -28,7 +30,7 @@ int BatteryBank::solve(std::vector<std::string>& banks) {
  */
 long BatteryBank::solve2(std::vector<std::string>& banks) {
 
-    int sum = 0;
+    long sum = 0;
 
     for(std::string& bank : banks) {
         sum += findLargestJoltage2(bank);
@@ -69,7 +71,7 @@ long BatteryBank::findLargestJoltage2(std::string& bankString) {
 
     const int batNum = 12;
 
-    std::vector<int> joltageVector(batNum, -1);
+    std::vector<int> joltageVector(batNum, 0);
     int searchingFor = 0;
 
     // Loop over the entire bankString
@@ -78,17 +80,20 @@ long BatteryBank::findLargestJoltage2(std::string& bankString) {
         // Save the actual integer for the current char
         int battery = bankString[i]-'0';
 
+        // If the only option is to turn on the rest of the batteries, just turn them on.
         if(batNum - searchingFor == bankString.length() - i) {
-            joltageVector[searchingFor] = battery;
+
+            // The call to max handles the final character. joltageVector[searchingFor] is usually 0.
+            joltageVector[searchingFor] = std::max(battery, joltageVector[searchingFor]);
             if (searchingFor != batNum-1) searchingFor++;
-            
+            continue;
         }
 
         // Check if the battery improves the current joltage
         if(battery > joltageVector[searchingFor]) {
 
-            // Check which, and how many, batteries to change
-            for (int j = searchingFor-1; j >= 0 && batNum-(j+1); j--) {
+            // Find the optimal battery to replace, and zero every following battery.
+            for (int j = searchingFor; j >= 0 && batNum-(j+1) != bankString.length() - i; j--) {
                 if(battery > joltageVector[j]) {
                     joltageVector[j] = 0;
                     searchingFor = j;
@@ -101,10 +106,22 @@ long BatteryBank::findLargestJoltage2(std::string& bankString) {
         }
     }
 
-    long sum = 0;
-
     // Add everything together.
-    for(int i = 0; i < batNum; i++) sum += (joltageVector[i]*(10*(batNum-i)));
-
+    long sum = 0;
+    for(int i = 0; i < batNum; i++) sum += (joltageVector[i]*(std::pow(10, batNum-(i+1))));
     return sum;
+}
+
+
+/*
+ * Print vectors
+ */
+void BatteryBank::printVec(std::vector<int> vec) {
+    
+    std::cout << std::endl;
+
+    for(auto& num : vec) {
+        std::cout << std::to_string(num);
+    }
+    std::cout << std::endl;
 }
