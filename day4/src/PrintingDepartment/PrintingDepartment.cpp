@@ -1,13 +1,12 @@
 #include "PrintingDepartment.h"
 #include <algorithm>
-#include <cmath>
-#include <cstddef>
 #include <iostream>
 #include <iterator>
 #include <string>
 #include <vector>
 
 PrintingDepartment::PrintingDepartment() {
+    matrix = std::vector<std::vector<bool>>();
     return;
 }
 
@@ -18,7 +17,13 @@ PrintingDepartment::PrintingDepartment() {
 int PrintingDepartment::solve(std::vector<std::string>& paper) {
 
     int sum = 0;
-    getMatrix(paper);
+    buildMatrix(paper);
+
+    for (int i = 0; i < matrix.size(); i++) {
+        for (int j = 0; j < matrix[i].size(); j++) {
+            if (matrix[i][j] && getNumNeighbours(i, j) < 4) sum++;
+        }
+    }
     return sum;
 }
 
@@ -35,30 +40,52 @@ long PrintingDepartment::solve2(std::vector<std::string>& paper) {
 
 
 /*
+ * Get neighbours to specified row,col
+ */
+int PrintingDepartment::getNumNeighbours(int row, int col) {
+
+    int count = 0;
+
+    //std::cout << "Row: " << row << ", Col: " << col << std::endl;
+
+    for (int i = std::max(0, row-1); i < std::min((int)matrix.size(), row+2); i++) {
+        for (int j = std::max(0, col-1); j < std::min((int)matrix[row].size(), col+2); j++) {
+
+            if(i == row && j == col) continue;
+
+            if(matrix[i][j]) count++;
+        }
+    }
+
+    //std::cout << count << std::endl;
+    return count;
+}
+
+
+/*
  * Transfors the input string into a matrix. True indicates presence of paper
  */
-std::vector<std::vector<bool>> PrintingDepartment::getMatrix(std::vector<std::string>& input) {
-    auto ret = std::vector<std::vector<bool>>();
+void PrintingDepartment::buildMatrix(std::vector<std::string>& input) {
+
+    matrix = std::vector<std::vector<bool>>();
 
     // Extract all paper positions
     for(auto& str : input) {
-        ret.insert(ret.end(), std::vector<bool>());
+        matrix.insert(matrix.end(), std::vector<bool>());
 
         // Use lambda function for transforming a text matrix to a boolean one
-        std::transform(str.begin(), str.end(),std::back_inserter(ret[ret.size()-1]),
+        std::transform(str.begin(), str.end(),std::back_inserter(matrix[matrix.size()-1]),
         [](char c) -> bool {
             return c=='@';
         });
     }
-
-    return ret;
 }
 
 
 /*
  * Print vectors
  */
-void PrintingDepartment::printMatrix(std::vector<std::vector<bool>> matrix) {
+void PrintingDepartment::printMatrix() {
     
     std::cout << std::endl;
 

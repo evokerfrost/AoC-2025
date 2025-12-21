@@ -14,9 +14,11 @@ class PrintingDepartment {
         //Solution to second problem
         long solve2(std::vector<std::string>& paper);
     private:
+        std::vector<std::vector<bool>> matrix;
         // Helper functions
-        std::vector<std::vector<bool>> getMatrix(std::vector<std::string>& input);
-        void printMatrix(std::vector<std::vector<bool>> matrix);
+        int getNumNeighbours(int row, int col);
+        void buildMatrix(std::vector<std::string>& input);
+        void printMatrix();
 };
 
 #endif
