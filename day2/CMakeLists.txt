@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(aoc-2025-1 VERSION 1.0)
+project(aoc-2025-2 VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
