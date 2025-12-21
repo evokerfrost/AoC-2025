@@ -33,7 +33,33 @@ int PrintingDepartment::solve(std::vector<std::string>& paper) {
  */
 long PrintingDepartment::solve2(std::vector<std::string>& paper) {
 
-    long sum = 0;
+    int sum = 0;
+
+    buildMatrix(paper);
+
+    // Look for accessible paper until no more paper can be found
+    std::vector<std::pair<int, int>> removalList;
+    do{
+        // Empty removalList
+        removalList = {};
+
+        // Check which rolls of paper you can move
+        for (int i = 0; i < matrix.size(); i++) {
+            for (int j = 0; j < matrix[i].size(); j++) {
+
+                // Roll of paper can be moved. Add to removalList
+                if (matrix[i][j] && getNumNeighbours(i, j) < 4) {
+                    removalList.insert(removalList.end(), {i, j});
+                    sum++;
+                }
+            }
+        }
+
+        // Remove all paper in removalList
+        for (auto& removal : removalList) {
+            matrix[removal.first][removal.second] = false;
+        }
+    }while(!removalList.empty());
 
     return sum;
 }
