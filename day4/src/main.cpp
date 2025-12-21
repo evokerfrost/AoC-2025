@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "FileHandler/FileHandler.h"
-#include "BatteryBank/BatteryBank.h"
+#include "PrintingDepartment/PrintingDepartment.h"
 
 int main(int argc, const char* argv[]) {
 
@@ -12,12 +12,12 @@ int main(int argc, const char* argv[]) {
     }
 
     FileHandler fh = FileHandler();
-    BatteryBank bb = BatteryBank();
+    PrintingDepartment pd = PrintingDepartment();
     
     std::vector<std::string> fileOutput = fh.readFile(argv[1]);
     
-    int result = bb.solve(fileOutput);
-    long result2 = bb.solve2(fileOutput);
+    int result = pd.solve(fileOutput);
+    long result2 = pd.solve2(fileOutput);
 
     std::cout << "Result 1: " << std::to_string(result) << std::endl;
     std::cout << "Result 2: " << std::to_string(result2) << std::endl;
