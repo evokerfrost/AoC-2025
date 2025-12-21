@@ -12,10 +12,11 @@ class BatteryBank {
         int solve(std::vector<std::string>& banks);
 
         //Solution to second problem
-        int solve2(std::vector<std::string>& banks);
+        long solve2(std::vector<std::string>& banks);
     private:
         // Helper functions
         int findLargestJoltage(std::string& bankString);
+        long findLargestJoltage2(std::string& bankString);
 };
 
 #endif
