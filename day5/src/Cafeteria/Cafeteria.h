@@ -16,6 +16,8 @@ class Cafeteria {
     private:
         std::vector<std::pair<long, long>> rangeVector;
         bool inRange(long num) ;
+        void combineRanges();
+        long countRanges();
 };
 
 #endif
