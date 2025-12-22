@@ -7,6 +7,7 @@ class FileHandler {
     public:
         FileHandler();
         std::vector<std::string> readFile(const std::string& fileName);
+        std::vector<std::string> splitString(std::string& str, char divider);
     private:
 };
 

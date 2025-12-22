@@ -9,11 +9,17 @@ class TrashCompactor {
         TrashCompactor();
 
         // Solution to first problem
-        int solve(std::vector<std::string>& ranges);
+        long solve(std::vector<std::string>& rows);
 
         //Solution to second problem
-        long solve2(std::vector<std::string>& ranges);
+        long solve2(std::vector<std::string>& rows);
     private:
+        typedef long (*Calculation)(long x, long y);
+
+        // Helper functions
+        std::vector<std::vector<std::string>> mathMatrix;
+        void populateMathMatrix(std::vector<std::string>& rows);
+        std::vector<std::string> mathStringHandler(std::string& ogString);
 };
 
 #endif

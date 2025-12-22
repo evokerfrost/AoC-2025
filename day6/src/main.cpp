@@ -16,7 +16,7 @@ int main(int argc, const char* argv[]) {
     
     std::vector<std::string> fileOutput = fh.readFile(argv[1]);
     
-    int result = tc.solve(fileOutput);
+    long result = tc.solve(fileOutput);
     long result2 = tc.solve2(fileOutput);
 
     std::cout << "Result 1: " << std::to_string(result) << std::endl;
