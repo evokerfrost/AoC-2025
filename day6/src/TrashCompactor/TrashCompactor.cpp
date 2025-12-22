@@ -58,9 +58,100 @@ long TrashCompactor::solve(std::vector<std::string>& rows) {
  */
 long TrashCompactor::solve2(std::vector<std::string>& rows) {
 
+    mathMatrix = std::vector<std::vector<std::string>>();
+    populateMathMatrix2(rows);
+
     long sum = 0;
+    long opRow = mathMatrix.size()-1;
+    std::vector<long> resultVec = std::vector<long>();
+
+    // Create lambda for arithmetic
+    auto addition = [](long x, long y) -> long { return x + y; };
+    auto multiplication = [](long x, long y) -> long { return x*y; };
+
+    // Solve...
+    for (long col = 0; col < mathMatrix[0].size(); col++) {
+
+        // Set operator (see h-file for definition of Calculation)
+        Calculation op;
+        switch (mathMatrix[opRow][col].at(0)) {
+            case '+':
+                op = addition;
+                break;
+            case '*':
+                op = multiplication;
+                break; 
+        }
+
+        std::vector<long> numbers = std::vector<long>();
+
+        for(long vertical = mathMatrix[0][col].size()-1; vertical >= 0; vertical--) {
+            std::string str = std::string();
+            for(long row = 0; row < opRow; row++)
+                if (mathMatrix[row][col][vertical] != ' ') str.push_back(mathMatrix[row][col][vertical]);
+
+            numbers.push_back(std::stol(str));
+        }
+
+        long result = numbers[0];
+        for(long i = 1; i < numbers.size(); i++) result = op(result, numbers[i]);
+        resultVec.insert(resultVec.end(), result);
+    }
+
+    sum = std::accumulate(resultVec.begin(), resultVec.end(), decltype(resultVec)::value_type(0));
 
     return sum;
+}
+
+
+/*
+ * Populate mathMatrix with data from input. Chaotic af
+ */
+void TrashCompactor::populateMathMatrix2(std::vector<std::string>& rows) {
+
+    std::string ops = rows[rows.size()-1];
+    for (long row = 0; row < rows.size()-1; row++) {
+
+        std::vector<std::string> mathRow = std::vector<std::string>();
+
+        std::size_t segStart = positiveMin(ops.find_first_of('+'), ops.find_first_of('*'));
+        std::size_t nextSeg = positiveMin(ops.find_first_of('+', segStart+1), ops.find_first_of('*', segStart+1));
+
+        while (nextSeg != std::string::npos) {
+            mathRow.push_back(rows[row].substr(segStart, (nextSeg-1)-segStart));
+
+            segStart=nextSeg;
+            nextSeg = positiveMin(ops.find_first_of('+',nextSeg+1), ops.find_first_of('*',nextSeg+1));
+        }
+
+        mathRow.push_back(rows[row].substr(segStart));
+        mathMatrix.push_back(mathRow);
+    }
+
+    std::vector<std::string> opRow = std::vector<std::string>();
+
+    std::size_t segStart = positiveMin(ops.find_first_of('+'), ops.find_first_of('*'));
+    std::size_t nextSeg = positiveMin(ops.find_first_of('+', segStart+1), ops.find_first_of('*', segStart+1));
+
+    while (nextSeg != std::string::npos) {
+        opRow.push_back(ops.substr(segStart, 1));
+
+        segStart=nextSeg;
+        nextSeg = positiveMin(ops.find_first_of('+',nextSeg+1), ops.find_first_of('*',nextSeg+1));
+    }
+    opRow.push_back(ops.substr(segStart, 1));
+    mathMatrix.push_back(opRow);
+}
+
+
+/*
+ * Return a positive min if it exists
+ */
+long TrashCompactor::positiveMin(long a, long b) {
+    if(a < 0) a = b;
+    if(b < 0) b = a;
+
+    return std::min(a, b);
 }
 
 
@@ -100,4 +191,17 @@ std::vector<std::string> TrashCompactor::mathStringHandler(std::string& ogString
     retVector.insert(retVector.end(), ogString.substr(textPos));
     
     return retVector;
+}
+
+
+/*
+ * Print math matrix
+ */
+void TrashCompactor::printMathMatrix() {
+    for(auto& sv : mathMatrix) {
+        for (auto& s : sv) {
+            std::cout << s << ",";
+        }
+        std::cout << std::endl;
+    }
 }

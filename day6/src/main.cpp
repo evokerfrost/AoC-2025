@@ -20,6 +20,9 @@ int main(int argc, const char* argv[]) {
     long result2 = tc.solve2(fileOutput);
 
     std::cout << "Result 1: " << std::to_string(result) << std::endl;
+
+    // 9611992208110 is too low
+    // 11270227961905
     std::cout << "Result 2: " << std::to_string(result2) << std::endl;
 
     return 0;
