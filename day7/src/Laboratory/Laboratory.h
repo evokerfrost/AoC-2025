@@ -14,14 +14,13 @@ class Laboratory {
         //Solution to second problem
         long solve2(std::vector<std::string>& rows);
     private:
+        // Attributes
+        std::vector<std::string> matrix;
+        long sum;
 
         // Helper functions
-        std::vector<std::vector<std::string>> mathMatrix;
-        void populateMathMatrix(std::vector<std::string>& rows);
-        void populateMathMatrix2(std::vector<std::string>& rows);
-        long positiveMin(long a, long b);
-        std::vector<std::string> mathStringHandler(std::string& ogString);
-        void printMathMatrix();
+        void progress(long row);
+        long countTotal();
 };
 
 #endif
